@@ -7,19 +7,29 @@ class Linear:
         # set input and output shape of layer
         self.shape = (in_channels, out_channels)
         self.need_bias = need_bias
-        self._weight = Tensor(
-            data=initializer(self.shape, mode=mode),
-            requires_grad=True
+        # TODO initialize weight by initializer function (mode)
+        self.weight = Tensor(
+            data=None,
+            requires_grad=None
         )
-        self._bias = Tensor(
-            data=initializer((self.shape[1]), mode="zero"),
-            requires_grad=need_bias,
-        )
+        # TODO initialize weight by initializer function (zero mode)
+        if self.need_bias:
+            self.bias = Tensor(
+                data=None,
+                requires_grad=None
+            )
 
     def forward(self, inp):
-        return (inp @ self._weight) + self._bias
+        # TODO:implement forward propagation
+        return None
     
     def parameters(self):
-        yield self._weight
+        
         if self.need_bias:
-            yield self._bias
+            return [self. weight, self.bias]
+        return [self. weight]
+    
+    def zero_grad(self):
+        self.weight.zero_grad()
+        if self.need_bias:
+            self.bias.zero_grad()

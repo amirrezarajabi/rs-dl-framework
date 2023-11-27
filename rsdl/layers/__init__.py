@@ -1,5 +1,7 @@
 import numpy as np
 
+from layers.fully_connected import Linear
+
 def xavier_initializer(shape):
     return np.random.randn(*shape) * np.sqrt(1/shape[0])
 
