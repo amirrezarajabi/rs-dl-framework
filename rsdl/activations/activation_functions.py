@@ -1,4 +1,6 @@
+import numpy as np
 from tensors import Tensor
+from tensors import Dependency
 
 def Sigmoid(t: Tensor) -> Tensor:
     return 1.0/(1.0+((-t).exp()))
@@ -7,7 +9,7 @@ def Tanh(t: Tensor) -> Tensor:
     return (t.exp()-(-t).exp())/(t.exp()+(-t).exp())
 
 def Relu(t: Tensor) -> Tensor:
-    data=np.maximum(0,tensor.data)
+    data=np.maximum(0,t.data)
     req_grad=t.requires_grad
     if req_grad:
         def grad_fn(grad: np.ndarray):
@@ -27,6 +29,7 @@ def LeakyRelu(t: Tensor,leak=0.05) -> Tensor:
     # TODO
     data=...
     req_grad=...
+    
     if req_grad:
         def grad_fn(grad: np.ndarray):
             return None
