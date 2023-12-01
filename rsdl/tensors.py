@@ -1,19 +1,27 @@
 import numpy as np
 from typing import List, NamedTuple, Callable, Optional, Union
 
-Arrayable = Union[float, list, np.ndarray]
-Tensorable = Union[float, 'Tensor', np.ndarray]
-
 class Dependency(NamedTuple):
     tensor: 'Tensor'
     grad_fn: Callable[[np.ndarray], np.ndarray]
 
-def ensure_array(obj: Arrayable):
-    return obj if isinstance(obj, Arrayable) else np.ndarray(obj)
 
-def ensure_tensor(obj: Tensorable):
-    return obj if isinstance(obj, Tensorable) else Tensor(obj)
+Arrayable = Union[float, list, np.ndarray]
 
+def ensure_array(arrayable: Arrayable) -> np.ndarray:
+    if isinstance(arrayable, np.ndarray):
+        return arrayable
+    else:
+        return np.array(arrayable)
+    
+Tensorable = Union[float, 'Tensor', np.ndarray]
+
+def ensure_tensor(tensorable: Tensorable) -> 'Tensor':
+    if isinstance(tensorable, Tensor):
+        return tensorable
+    else:
+        return Tensor(tensorable)
+        
 class Tensor:
 
     def __init__(
@@ -72,10 +80,10 @@ class Tensor:
         return None
 
     def __add__(self, other) -> 'Tensor':
-        # TODO: implement add
+        # Done ( Don't change )
         # Hint use _add function
         # self + other
-        return None
+        return _add(self, ensure_tensor(other))
     
     def __radd__(self, other) -> 'Tensor':
         # TODO: implement radd
@@ -275,13 +283,61 @@ def _add(t1: Tensor, t2: Tensor) -> Tensor:
 
 def _sub(t1: Tensor, t2: Tensor) -> Tensor:
     # TODO: implement sub
-    # Hint: be a smart person :) 
+    # Hint: a-b = a+(-b)
     return None
 
 def _mul(t1: Tensor, t2: Tensor) -> Tensor:
-    # TODO: implement element-wise product 
-    return None
+    # Done ( Don't change )
+    data = t1.data * t2.data
+    req_grad = t1.requires_grad or t2.requires_grad
+    depends_on : List[Dependency] = []
+
+    if t1.requires_grad:
+        def grad_fn1(grad: np.ndarray) -> np.ndarray:
+            grad = grad * t2.data
+            ndims_added = grad.ndim - t1.data.ndim
+            for _ in range(ndims_added):
+                grad = grad.sum(axis=0)
+            for i, dim in enumerate(t1.shape):
+                if dim == 1:
+                    grad = grad.sum(axis=i, keepdims=True)
+            return grad
+        depends_on.append(Dependency(t1, grad_fn1))
+    if t2.requires_grad:
+        def grad_fn2(grad: np.ndarray) -> np.ndarray:
+            grad = grad * t1.data
+            ndims_added = grad.ndim - t2.data.ndim
+            for _ in range(ndims_added):
+                grad = grad.sum(axis=0)
+            for i, dim in enumerate(t2.shape):
+                if dim == 1:
+                    grad = grad.sum(axis=i, keepdims=True)
+            return grad
+        depends_on.append(Dependency(t2, grad_fn2))
+    
+    return Tensor(
+        data=data,
+        requires_grad=req_grad,
+        depends_on=depends_on
+    )
 
 def _matmul(t1: Tensor, t2: Tensor) -> Tensor:
     # TODO: implement matrix multiplication
-    return None
+    data = t1.data @ t2.data
+    requires_grad = t1.requires_grad or t2.requires_grad
+
+    depends_on: List[Dependency] = []
+
+    if t1.requires_grad:
+        def grad_fn1(grad: np.ndarray) -> np.ndarray:
+            return ...
+        depends_on.append(Dependency(t1, grad_fn1))
+
+    if t2.requires_grad:
+        def grad_fn2(grad: np.ndarray) -> np.ndarray:
+            return ...
+        depends_on.append(Dependency(t2, grad_fn2))
+
+    return Tensor(data,
+                  requires_grad,
+                  depends_on)
