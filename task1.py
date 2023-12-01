@@ -1,6 +1,6 @@
 import numpy as np
 
-from rsdl.tensors import Tensor
+from rsdl import Tensor
 
 X = Tensor(np.random.randn(100, 3))
 coef = Tensor(np.array([-7, +3, -9]).reshape(-1, 1))
