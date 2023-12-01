@@ -17,6 +17,7 @@ def Softmax(t: Tensor) -> Tensor:
     # hint: you can't use sum because it has not axis argument so there are 2 ways:
     #        1. implement sum by axis
     #        2. using matrix mul to do it :) (recommended)
+    # hint: a/b = a*(b^-1)
     return None
 
 def Relu(t: Tensor) -> Tensor:
