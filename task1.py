@@ -5,6 +5,7 @@ from rsdl.tensors import Tensor
 X = Tensor(np.random.randn(100, 3))
 coef = Tensor(np.array([-7, +3, -9]).reshape(-1, 1))
 y = X @ coef + 1
+y = y + Tensor(np.random.randn(100, 1) * 0.01)
 
 # TODO: define w and b (y = w x + b)
 w = ...
@@ -33,8 +34,6 @@ for epoch in range(100):
 
         actual = y[start:end]
         # TODO: calcualte MSE loss
-        w.zero_grad()
-        b.zero_grad()
         
         # TODO: backward
         # hint you need to just do loss.backward()

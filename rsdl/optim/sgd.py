@@ -1,4 +1,4 @@
-from optim import Optimizer
+from rsdl.optim import Optimizer
 
 # TODO: implement step function
 class SGD(Optimizer):

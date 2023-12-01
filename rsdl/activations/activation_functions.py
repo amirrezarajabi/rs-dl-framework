@@ -1,19 +1,35 @@
+from rsdl import Tensor, Dependency
 import numpy as np
-from tensors import Tensor
-from tensors import Dependency
 
 def Sigmoid(t: Tensor) -> Tensor:
-    return 1.0/(1.0+((-t).exp()))
+    # TODO: implement sigmoid function
+    # hint: you can do it using function you've implemented (not directly define grad func)
+    return None
 
 def Tanh(t: Tensor) -> Tensor:
-    return (t.exp()-(-t).exp())/(t.exp()+(-t).exp())
+    # TODO: implement tanh function
+    # hint: you can do it using function you've implemented (not directly define grad func)
+    return None
+
+def Softmax(t: Tensor) -> Tensor:
+    # TODO: implement softmax function
+    # hint: you can do it using function you've implemented (not directly define grad func)
+    # hint: you can't use sum because it has not axis argument so there are 2 ways:
+    #        1. implement sum by axis
+    #        2. using matrix mul to do it :) (recommended)
+    return None
 
 def Relu(t: Tensor) -> Tensor:
-    data=np.maximum(0,t.data)
-    req_grad=t.requires_grad
+    # TODO: implement relu function
+
+    # use np.maximum
+    data = ...
+
+    req_grad = ...
     if req_grad:
         def grad_fn(grad: np.ndarray):
-            return grad * np.where(t.data>=0 , 1 , 0)
+            # use np.where
+            return None
         
         depends_on = [Dependency(t, grad_fn)]
     else:
@@ -26,10 +42,11 @@ def LeakyRelu(t: Tensor,leak=0.05) -> Tensor:
     fill 'data' and 'req_grad' and implement LeakyRelu grad_fn 
     hint: use np.where like Relu method but for LeakyRelu
     """
-    # TODO
-    data=...
-    req_grad=...
+    # TODO: implement leaky_relu function
     
+    data = ...
+    
+    req_grad = ...
     if req_grad:
         def grad_fn(grad: np.ndarray):
             return None
@@ -39,5 +56,3 @@ def LeakyRelu(t: Tensor,leak=0.05) -> Tensor:
         depends_on = []
 
     return Tensor(data=data, requires_grad=req_grad, depends_on=depends_on)
-
-

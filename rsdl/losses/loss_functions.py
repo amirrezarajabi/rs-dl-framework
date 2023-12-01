@@ -1,10 +1,13 @@
-from tensors import Tensor
+from rsdl import Tensor
 
 def CategoricalCrossEntropy(preds: Tensor, actual: Tensor):
-    loss=0
-    loss-= actual*preds.log().sum()
-    return loss
+    # TODO : imlement categorical cross entropy 
+    return None
 
 def MeanSquaredError(preds: Tensor, actual: Tensor):
-    # TODO 
+    # TODO : implement mean squared error
+    return None
+
+def BinaryCrossEntropy(preds: Tensor, actual: Tensor):
+    # TODO : implement binary squared error
     return None

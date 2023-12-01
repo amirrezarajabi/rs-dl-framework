@@ -1,5 +1,5 @@
-from tensors import Tensor
-from layers import initializer
+from rsdl import Tensor
+from rsdl.layers import initializer
 
 class Linear:
 
