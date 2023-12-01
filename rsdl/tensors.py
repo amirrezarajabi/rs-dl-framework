@@ -154,6 +154,17 @@ class Tensor:
         # TODO: implement neg (-)
         # Hint use -_tensor_neg function
         return None
+        
+    def backward(self, grad: 'Tensor' = None) -> None:
+        if grad is None:
+            if self.shape == ():
+                grad = Tensor(1.0)
+            else:
+                raise RuntimeError("grad must be specified for non-0-tensor")
+        self.grad.data = self.grad.data + grad.data
+        for dependency in self.depends_on:
+            backward_grad = dependency.grad_fn(grad.data)
+            dependency.tensor.backward(Tensor(backward_grad))
 
 
 def _tensor_sum(t: Tensor) -> Tensor:
