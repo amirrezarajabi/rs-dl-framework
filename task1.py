@@ -1,13 +1,13 @@
 import numpy as np
 
 from rsdl import Tensor
+from rsdl.losses import loss_functions
 
 X = Tensor(np.random.randn(100, 3))
-coef = Tensor(np.array([-7, +3, -9]).reshape(-1, 1))
-y = X @ coef + 1
-y = y + Tensor(np.random.randn(100, 1) * 0.01)
+coef = Tensor(np.array([-7, +3, -9]))
+y = X @ coef + 6
 
-# TODO: define w and b (y = w x + b)
+# TODO: define w and b (y = w x + b) with random initialization ( you can use np.random.randn )
 w = ...
 b = ...
 
@@ -23,9 +23,6 @@ for epoch in range(100):
     
     for start in range(0, 100, batch_size):
         end = start + batch_size
-
-
-        print(start, end)
 
         inputs = X[start:end]
 
