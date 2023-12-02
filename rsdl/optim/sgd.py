@@ -7,6 +7,7 @@ class SGD(Optimizer):
         self.learning_rate = learning_rate
 
     def step(self):
+        # TODO: update weight and biases ( Don't use '-=' and use l.weight = l.weight - ... )
         for l in self.layers:
             l.weight = ...
             if l.need_bias:
