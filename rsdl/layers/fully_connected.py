@@ -33,3 +33,6 @@ class Linear:
         self.weight.zero_grad()
         if self.need_bias:
             self.bias.zero_grad()
+            
+    def __call__(self, inp):
+        return self.forward(inp)
