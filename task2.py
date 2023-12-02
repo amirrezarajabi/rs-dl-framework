@@ -1,20 +1,22 @@
 import numpy as np
 
 from rsdl import Tensor
-
+from rsdl.layers import Linear
+from rsdl.optim import SGD
+from rsdl.losses import loss_functions
 
 X = Tensor(np.random.randn(100, 3))
-coef = Tensor(np.array([-7, +3, -9]).reshape(-1, 1))
-y = X @ coef + 1
-y = y + Tensor(np.random.randn(100, 1) * 0.01)
+coef = Tensor(np.array([-7, +3, -9]))
+y = X @ coef + 5
 
-# TODO: define a linear layer and optimizer
+# TODO: define a linear layer using Linear() class  
 l = ...
+
+# TODO: define an optimizer using SGD() class 
+optimizer = ....
 
 # TODO: print weight and bias of linear layer
 
-
-# TODO: init optimizer and loss function
 
 learning_rate = ...
 batch_size = ...
@@ -37,6 +39,7 @@ for epoch in range(100):
         predicted = ...
 
         actual = y[start:end]
+        actual.data = actual.data.reshape(batch_size, 1)
         # TODO: calcualte MSE loss
         
         # TODO: backward
@@ -47,11 +50,8 @@ for epoch in range(100):
         epoch_loss += ...
 
 
-        # TODO: update w and b
+        # TODO: update w and b using optimizer.step()
         
-    epoch_loss = epoch_loss / (100 // batch_size)
-    losses.append(epoch_loss)
 
 # TODO: print weight and bias of linear layer
-
-# TODO: plot the loss 
+ 
